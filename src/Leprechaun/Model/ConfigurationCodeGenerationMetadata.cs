@@ -16,7 +16,7 @@ namespace Leprechaun.Model
 
 		public IContainer Configuration { get; }
 
-		public string RootNamespace => Configuration.Resolve<ITemplatePredicate>().GetRootNamespace(null);
+		public string RootNamespace => Configuration.Resolve<IFilterPredicate<TemplateInfo>>().GetRootNamespace(null);
 
 		public IReadOnlyCollection<TemplateCodeGenerationMetadata> Metadata { get; }
 	}

@@ -11,7 +11,7 @@ using Sitecore.StringExtensions;
 
 namespace Leprechaun.Filters
 {
-	public class StandardTemplatePredicate : ITemplatePredicate, ITreeRootFactory
+	public class StandardTemplatePredicate : IFilterPredicate<TemplateInfo>, ITreeRootFactory
 	{
 		private readonly string _rootNamespace;
 		private readonly IList<TemplateTreeRoot> _includeEntries;

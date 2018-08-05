@@ -61,6 +61,7 @@
     <Compile Include="MetadataGeneration\StandardTemplateMetadataGenerator.cs" />
     <Compile Include="MetadataGeneration\StandardTypeNameGenerator.cs" />
     <Compile Include="Model\ConfigurationCodeGenerationMetadata.cs" />
+    <Compile Include="Model\ItemInfoBase.cs" />
     <Compile Include="Model\TemplateCodeGenerationMetadata.cs" />
     <Compile Include="Model\TemplateFieldCodeGenerationMetadata.cs" />
     <Compile Include="Orchestrator.cs" />
@@ -74,7 +75,7 @@
     <Compile Include="Filters\StandardTemplatePredicate.cs" />
     <Compile Include="TemplateReaders\DataStoreTemplateReader.cs" />
     <Compile Include="Filters\IFieldFilter.cs" />
-    <Compile Include="Filters\ITemplatePredicate.cs" />
+    <Compile Include="Filters\IFilterPredicate.cs" />
     <Compile Include="Model\TemplateFieldInfo.cs" />
     <Compile Include="Model\TemplateInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

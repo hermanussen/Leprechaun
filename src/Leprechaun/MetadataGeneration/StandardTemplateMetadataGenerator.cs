@@ -15,7 +15,7 @@ namespace Leprechaun.MetadataGeneration
 			foreach (var configuration in configurations)
 			{
 				var nameGenerator = configuration.Configuration.Resolve<ITypeNameGenerator>();
-				var predicate = configuration.Configuration.Resolve<ITemplatePredicate>();
+				var predicate = configuration.Configuration.Resolve<IFilterPredicate<TemplateInfo>>();
 
 				var templates = configuration.Templates
 					.Where(template => predicate.Includes(template))
@@ -33,7 +33,7 @@ namespace Leprechaun.MetadataGeneration
 			return results;
 		}
 
-		protected virtual TemplateCodeGenerationMetadata CreateTemplate(ITypeNameGenerator nameGenerator, ITemplatePredicate predicate, TemplateInfo template)
+		protected virtual TemplateCodeGenerationMetadata CreateTemplate(ITypeNameGenerator nameGenerator, IFilterPredicate<TemplateInfo> predicate, TemplateInfo template)
 		{
 			var fullName = nameGenerator.GetFullTypeName(template.Path);
 

@@ -8,6 +8,7 @@ using Leprechaun.CodeGen;
 using Leprechaun.Filters;
 using Leprechaun.Logging;
 using Leprechaun.MetadataGeneration;
+using Leprechaun.Model;
 using Leprechaun.TemplateReaders;
 using Leprechaun.Validation;
 using Rainbow.Storage;
@@ -75,7 +76,7 @@ namespace Leprechaun
 				// Assert that expected dependencies exist - and in the case of data stores are specifically singletons (WEIRD things happen otherwise)
 				configuration.AssertSingleton(typeof(IDataStore));
 				configuration.AssertSingleton(typeof(IFieldFilter));
-				configuration.AssertSingleton(typeof(ITemplatePredicate));
+				configuration.AssertSingleton(typeof(IFilterPredicate<TemplateInfo>));
 				configuration.AssertSingleton(typeof(ITypeNameGenerator));
 				configuration.AssertSingleton(typeof(ITemplateReader));
 				configuration.Assert(typeof(ICodeGenerator));
