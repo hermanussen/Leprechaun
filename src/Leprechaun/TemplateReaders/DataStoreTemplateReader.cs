@@ -8,7 +8,7 @@ using Sitecore;
 
 namespace Leprechaun.TemplateReaders
 {
-	public class DataStoreTemplateReader : ITemplateReader
+	public class DataStoreTemplateReader : IItemReader<TemplateInfo>
 	{
 		private static readonly Guid TemplateTemplateId = TemplateIDs.Template.Guid;
 		private static readonly Guid TemplateFieldTemplateId = TemplateIDs.TemplateField.Guid;
@@ -29,7 +29,7 @@ namespace Leprechaun.TemplateReaders
 			_dataStore = dataStore;
 		}
 
-		public TemplateInfo[] GetTemplates(params TreeRoot[] rootPaths)
+		public TemplateInfo[] GetItems(params TreeRoot[] rootPaths)
 		{
 			return rootPaths
 				.AsParallel()

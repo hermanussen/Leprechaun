@@ -52,15 +52,15 @@ namespace Leprechaun
 
 		protected virtual IEnumerable<TemplateInfo> GetTemplates(IContainer configuration)
 		{
-			var templateReader = configuration.Resolve<ITemplateReader>();
-			var templatePredicate = configuration.Resolve<IFilterPredicate<TemplateInfo>>();
+			var itemReader = configuration.Resolve<IItemReader<TemplateInfo>>();
+			var filterPredicate = configuration.Resolve<IFilterPredicate<TemplateInfo>>();
 
-			Assert.IsNotNull(templateReader, "templateReader != null");
-			Assert.IsNotNull(templatePredicate, "templatePredicate != null");
+			Assert.IsNotNull(itemReader, "itemReader != null");
+			Assert.IsNotNull(filterPredicate, "filterPredicate != null");
 
-			var roots = templatePredicate.GetRootPaths();
+			var roots = filterPredicate.GetRootPaths();
 
-			return templateReader.GetTemplates(roots);
+			return itemReader.GetItems(roots);
 		}
 
 		protected virtual void FilterIgnoredFields(IEnumerable<TemplateConfiguration> configurations)
