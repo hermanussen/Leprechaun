@@ -13,7 +13,7 @@ namespace Leprechaun.Filters.Exclusions
 		private readonly string[] _exceptions;
 		private readonly string _excludeChildrenOfPath;
 
-		public ChildrenOfPathBasedPresetTreeExclusion(string excludeChildrenOfPath, string[] exceptions, TemplateTreeRoot root)
+		public ChildrenOfPathBasedPresetTreeExclusion(string excludeChildrenOfPath, string[] exceptions, ItemTreeRoot root)
 		{
 			_excludeChildrenOfPath = excludeChildrenOfPath;
 

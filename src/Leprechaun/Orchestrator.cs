@@ -12,33 +12,46 @@ namespace Leprechaun
 {
 	public class Orchestrator
 	{
-		private readonly IItemMetadataGenerator _metadataGenerator;
 		private readonly IArchitectureValidator _architectureValidator;
 
-		public Orchestrator(IItemMetadataGenerator metadataGenerator, IArchitectureValidator architectureValidator)
+		public Orchestrator(IArchitectureValidator architectureValidator)
 		{
-			_metadataGenerator = metadataGenerator;
 			_architectureValidator = architectureValidator;
 		}
 
 		public virtual IReadOnlyList<ConfigurationCodeGenerationMetadata> GenerateMetadata(params IContainer[] configurations)
 		{
-			if (_metadataGenerator is IItemMetadataGenerator<TemplateInfo> metadataGenerator)
+			var metadata = new List<ConfigurationCodeGenerationMetadata>();
+
+			foreach (var configuration in configurations)
 			{
-				var templates = GetAllItems<TemplateInfo>(configurations);
+				var generator = configuration.Resolve<IItemMetadataGenerator>();
 
-				FilterIgnoredFields(templates);
+				if (generator is IItemMetadataGenerator<TemplateInfo> templateGenerator)
+				{
+					var templates = GetAllItems<TemplateInfo>(new [] { configuration });
 
-				var metadata = metadataGenerator.Generate(templates);
+					FilterIgnoredFields(templates);
 
-				var allTemplatesMetadata = metadata.SelectMany(config => config.Metadata).ToArray();
+					metadata.AddRange(templateGenerator.Generate(templates));
+				}
+				else if (generator is IItemMetadataGenerator<ItemInfo> itemGenerator)
+				{
+					var items = GetAllItems<ItemInfo>(new[] { configuration });
 
-				_architectureValidator.Validate(allTemplatesMetadata);
+					FilterIgnoredFields(items);
 
-				return metadata;
+					metadata.AddRange(itemGenerator.Generate(items));
+				}
 			}
 
-			return null;
+			var allTemplatesMetadata = metadata.Where(config => config.Metadata != null).SelectMany(config => config.Metadata).ToArray();
+			_architectureValidator.Validate(allTemplatesMetadata);
+
+			var allItemsMetadata = metadata.Where(config => config.ItemMetadata != null).SelectMany(config => config.ItemMetadata).ToArray();
+			//_architectureValidator.Validate(allItemsMetadata);
+
+			return metadata;
 		}
 
 		protected virtual ItemConfiguration<T>[] GetAllItems<T>(IEnumerable<IContainer> configurations)
@@ -66,7 +79,6 @@ namespace Leprechaun
 			Assert.IsNotNull(filterPredicate, "filterPredicate != null");
 
 			var roots = filterPredicate.GetRootPaths();
-
 			return itemReader.GetItems(roots);
 		}
 

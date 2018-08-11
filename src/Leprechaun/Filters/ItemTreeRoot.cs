@@ -3,9 +3,9 @@ using Rainbow.Storage;
 
 namespace Leprechaun.Filters
 {
-	public class TemplateTreeRoot : TreeRoot
+	public class ItemTreeRoot : TreeRoot
 	{
-		public TemplateTreeRoot(string name, string path) : base(name, path, "master")
+		public ItemTreeRoot(string name, string path) : base(name, path, "master")
 		{
 			Exclusions = new List<IPresetTreeExclusion>();
 		}

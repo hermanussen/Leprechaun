@@ -74,11 +74,14 @@ namespace Leprechaun
 			foreach (var configuration in configurations)
 			{
 				// Assert that expected dependencies exist - and in the case of data stores are specifically singletons (WEIRD things happen otherwise)
+				configuration.AssertSingleton(typeof(IItemMetadataGenerator));
 				configuration.AssertSingleton(typeof(IDataStore));
 				configuration.AssertSingleton(typeof(IFieldFilter));
 				configuration.AssertSingleton(typeof(IFilterPredicate<TemplateInfo>));
+				configuration.AssertSingleton(typeof(IFilterPredicate<ItemInfo>));
 				configuration.AssertSingleton(typeof(ITypeNameGenerator));
 				configuration.AssertSingleton(typeof(IItemReader<TemplateInfo>));
+				configuration.AssertSingleton(typeof(IItemReader<ItemInfo>));
 				configuration.Assert(typeof(ICodeGenerator));
 
 				// register the container with itself. how meta!
@@ -95,7 +98,6 @@ namespace Leprechaun
 			var sharedConfiguration = GetContainer(definition);
 
 			// Assert that expected dependencies exist - and in the case of data stores are specifically singletons (WEIRD things happen otherwise)
-			sharedConfiguration.AssertSingleton(typeof(IItemMetadataGenerator));
 			sharedConfiguration.AssertSingleton(typeof(IArchitectureValidator));
 			sharedConfiguration.Assert(typeof(ILogger));
 

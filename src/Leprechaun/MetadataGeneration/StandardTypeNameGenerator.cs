@@ -23,7 +23,8 @@ namespace Leprechaun.MetadataGeneration
 		public virtual string GetFullTypeName(string fullPath)
 		{
 			string name = fullPath.Trim('/');
-			if (fullPath.StartsWith(_namespaceRoot, StringComparison.OrdinalIgnoreCase))
+			if (fullPath.StartsWith(_namespaceRoot, StringComparison.OrdinalIgnoreCase)
+				&& _namespaceRoot.Length < name.Length)
 			{
 				name = name.Substring(_namespaceRoot.Length);
 			}

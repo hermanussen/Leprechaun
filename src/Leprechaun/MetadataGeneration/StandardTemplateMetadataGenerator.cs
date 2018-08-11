@@ -23,7 +23,7 @@ namespace Leprechaun.MetadataGeneration
 					.OrderBy(template => template.Name, StringComparer.Ordinal)
 					.ToArray();
 
-				results.Add(new ConfigurationCodeGenerationMetadata(configuration.Configuration, templates));
+				results.Add(new ConfigurationCodeGenerationMetadata(configuration.Configuration, templates, null));
 			}
 
 			ApplyBaseTemplates(results);

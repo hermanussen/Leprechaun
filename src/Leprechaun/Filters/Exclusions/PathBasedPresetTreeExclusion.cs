@@ -11,7 +11,7 @@ namespace Leprechaun.Filters.Exclusions
 		private readonly string _excludedPath;
 		private readonly bool _implicitChildrenExclusion;
 
-		public PathBasedPresetTreeExclusion(string excludedPath, TemplateTreeRoot root)
+		public PathBasedPresetTreeExclusion(string excludedPath, ItemTreeRoot root)
 		{
 			_excludedPath = excludedPath;
 

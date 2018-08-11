@@ -107,8 +107,9 @@ namespace Leprechaun.Console
 			{
 				System.Console.WriteLine();
 				System.Console.ForegroundColor = ConsoleColor.Cyan;
-				var word = meta.Metadata.Count == 1 ? "template" : "templates";
-				System.Console.WriteLine($"> Generating {meta.Configuration.Name} ({meta.Metadata.Count} {word})");
+				var templateWord = meta.Metadata?.Count == 1 ? "template" : "templates";
+				var itemWord = meta.ItemMetadata?.Count == 1 ? "item" : "items";
+				System.Console.WriteLine($"> Generating {meta.Configuration.Name} ({meta.Metadata?.Count} {templateWord} and {meta.ItemMetadata?.Count} {itemWord})");
 				System.Console.ResetColor();
 
 				var codeGen = meta.Configuration.Resolve<ICodeGenerator>();
@@ -127,7 +128,7 @@ namespace Leprechaun.Console
 			metadataTimer.Stop();
 			System.Console.ForegroundColor = ConsoleColor.Green;
 			System.Console.WriteLine(
-				$"Loaded metadata for {metadata.Count} configurations ({metadata.Sum(m => m.Metadata.Count)} total templates) in {metadataTimer.ElapsedMilliseconds}ms.");
+				$"Loaded metadata for {metadata.Count} configurations ({metadata.Sum(m => m.Metadata?.Count)} total templates and {metadata.Sum(m => m.ItemMetadata?.Count)} total items) in {metadataTimer.ElapsedMilliseconds}ms.");
 			System.Console.ResetColor();
 
 			return metadata;
