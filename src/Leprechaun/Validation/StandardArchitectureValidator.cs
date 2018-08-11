@@ -53,6 +53,10 @@ namespace Leprechaun.Validation
 			if(errors) throw new ArchitectureValidationException("At least one error occurred validating your template architecture.");
 		}
 
+		public void Validate(ItemCodeGenerationMetadata[] allItemsMetadata)
+		{
+		}
+
 		protected virtual bool ValidateBaseTemplatesAreKnown(TemplateCodeGenerationMetadata template)
 		{
 			var unresolvedBaseTemplates = template.TemplateInfo.BaseTemplateIds

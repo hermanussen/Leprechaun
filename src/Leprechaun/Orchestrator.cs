@@ -49,7 +49,7 @@ namespace Leprechaun
 			_architectureValidator.Validate(allTemplatesMetadata);
 
 			var allItemsMetadata = metadata.Where(config => config.ItemMetadata != null).SelectMany(config => config.ItemMetadata).ToArray();
-			//_architectureValidator.Validate(allItemsMetadata);
+			_architectureValidator.Validate(allItemsMetadata);
 
 			return metadata;
 		}
