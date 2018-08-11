@@ -5,7 +5,7 @@ namespace Leprechaun.Filters
 {
 	public class ItemTreeRoot : TreeRoot
 	{
-		public ItemTreeRoot(string name, string path) : base(name, path, "master")
+		public ItemTreeRoot(string name, string path, string database = "master") : base(name, path, database)
 		{
 			Exclusions = new List<IPresetTreeExclusion>();
 		}

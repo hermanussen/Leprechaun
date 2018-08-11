@@ -53,6 +53,7 @@
     </Compile>
     <Compile Include="CodeGen\ICodeGenerator.cs" />
     <Compile Include="ConfigurationImportPathResolver.cs" />
+    <Compile Include="Filters\MatchAllItemPredicate.cs" />
     <Compile Include="Filters\RainbowNullFieldFilter.cs" />
     <Compile Include="Filters\StandardItemPredicate.cs" />
     <Compile Include="Filters\StandardTemplatePredicate.cs" />
