@@ -12,10 +12,10 @@ namespace Leprechaun
 {
 	public class Orchestrator
 	{
-		private readonly ITemplateMetadataGenerator _metadataGenerator;
+		private readonly IItemMetadataGenerator _metadataGenerator;
 		private readonly IArchitectureValidator _architectureValidator;
 
-		public Orchestrator(ITemplateMetadataGenerator metadataGenerator, IArchitectureValidator architectureValidator)
+		public Orchestrator(IItemMetadataGenerator metadataGenerator, IArchitectureValidator architectureValidator)
 		{
 			_metadataGenerator = metadataGenerator;
 			_architectureValidator = architectureValidator;
@@ -23,17 +23,22 @@ namespace Leprechaun
 
 		public virtual IReadOnlyList<ConfigurationCodeGenerationMetadata> GenerateMetadata(params IContainer[] configurations)
 		{
-			var templates = GetAllItems<TemplateInfo>(configurations);
+			if (_metadataGenerator is IItemMetadataGenerator<TemplateInfo> metadataGenerator)
+			{
+				var templates = GetAllItems<TemplateInfo>(configurations);
 
-			FilterIgnoredFields(templates);
+				FilterIgnoredFields(templates);
 
-			var metadata = _metadataGenerator.Generate(templates);
+				var metadata = metadataGenerator.Generate(templates);
 
-			var allTemplatesMetadata = metadata.SelectMany(config => config.Metadata).ToArray();
+				var allTemplatesMetadata = metadata.SelectMany(config => config.Metadata).ToArray();
 
-			_architectureValidator.Validate(allTemplatesMetadata);
+				_architectureValidator.Validate(allTemplatesMetadata);
 
-			return metadata;
+				return metadata;
+			}
+
+			return null;
 		}
 
 		protected virtual ItemConfiguration<T>[] GetAllItems<T>(IEnumerable<IContainer> configurations)

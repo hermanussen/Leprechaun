@@ -56,11 +56,12 @@
     <Compile Include="Filters\RainbowNullFieldFilter.cs" />
     <Compile Include="LeprechaunConfigurationBuilder.cs" />
     <Compile Include="Logging\ILogger.cs" />
-    <Compile Include="MetadataGeneration\ITemplateMetadataGenerator.cs" />
+    <Compile Include="MetadataGeneration\IItemMetadataGenerator.cs" />
     <Compile Include="MetadataGeneration\ITypeNameGenerator.cs" />
     <Compile Include="MetadataGeneration\StandardTemplateMetadataGenerator.cs" />
     <Compile Include="MetadataGeneration\StandardTypeNameGenerator.cs" />
     <Compile Include="Model\ConfigurationCodeGenerationMetadata.cs" />
+    <Compile Include="Model\ItemInfo.cs" />
     <Compile Include="Model\ItemInfoBase.cs" />
     <Compile Include="Model\TemplateCodeGenerationMetadata.cs" />
     <Compile Include="Model\TemplateFieldCodeGenerationMetadata.cs" />

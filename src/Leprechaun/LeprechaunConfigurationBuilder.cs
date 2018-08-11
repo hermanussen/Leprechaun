@@ -95,7 +95,7 @@ namespace Leprechaun
 			var sharedConfiguration = GetContainer(definition);
 
 			// Assert that expected dependencies exist - and in the case of data stores are specifically singletons (WEIRD things happen otherwise)
-			sharedConfiguration.AssertSingleton(typeof(ITemplateMetadataGenerator));
+			sharedConfiguration.AssertSingleton(typeof(IItemMetadataGenerator));
 			sharedConfiguration.AssertSingleton(typeof(IArchitectureValidator));
 			sharedConfiguration.Assert(typeof(ILogger));
 

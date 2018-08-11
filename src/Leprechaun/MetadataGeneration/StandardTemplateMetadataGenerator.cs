@@ -6,7 +6,7 @@ using Leprechaun.Model;
 
 namespace Leprechaun.MetadataGeneration
 {
-	public class StandardTemplateMetadataGenerator : ITemplateMetadataGenerator
+	public class StandardTemplateMetadataGenerator : IItemMetadataGenerator<TemplateInfo>
 	{
 		public virtual IReadOnlyList<ConfigurationCodeGenerationMetadata> Generate(params ItemConfiguration<TemplateInfo>[] configurations)
 		{
