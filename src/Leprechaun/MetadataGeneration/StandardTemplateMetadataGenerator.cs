@@ -8,7 +8,7 @@ namespace Leprechaun.MetadataGeneration
 {
 	public class StandardTemplateMetadataGenerator : ITemplateMetadataGenerator
 	{
-		public virtual IReadOnlyList<ConfigurationCodeGenerationMetadata> Generate(params TemplateConfiguration[] configurations)
+		public virtual IReadOnlyList<ConfigurationCodeGenerationMetadata> Generate(params ItemConfiguration<TemplateInfo>[] configurations)
 		{
 			var results = new List<ConfigurationCodeGenerationMetadata>(configurations.Length);
 
@@ -17,7 +17,7 @@ namespace Leprechaun.MetadataGeneration
 				var nameGenerator = configuration.Configuration.Resolve<ITypeNameGenerator>();
 				var predicate = configuration.Configuration.Resolve<IFilterPredicate<TemplateInfo>>();
 
-				var templates = configuration.Templates
+				var templates = configuration.Items
 					.Where(template => predicate.Includes(template))
 					.Select(template => CreateTemplate(nameGenerator, predicate, template))
 					.OrderBy(template => template.Name, StringComparer.Ordinal)

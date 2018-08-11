@@ -5,6 +5,6 @@ namespace Leprechaun.MetadataGeneration
 {
 	public interface ITemplateMetadataGenerator
 	{
-		IReadOnlyList<ConfigurationCodeGenerationMetadata> Generate(params TemplateConfiguration[] configurations);
+		IReadOnlyList<ConfigurationCodeGenerationMetadata> Generate(params ItemConfiguration<TemplateInfo>[] configurations);
 	}
 }

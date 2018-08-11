@@ -23,7 +23,7 @@ namespace Leprechaun
 
 		public virtual IReadOnlyList<ConfigurationCodeGenerationMetadata> GenerateMetadata(params IContainer[] configurations)
 		{
-			var templates = GetAllTemplates(configurations);
+			var templates = GetAllItems<TemplateInfo>(configurations);
 
 			FilterIgnoredFields(templates);
 
@@ -36,24 +36,26 @@ namespace Leprechaun
 			return metadata;
 		}
 
-		protected virtual TemplateConfiguration[] GetAllTemplates(IEnumerable<IContainer> configurations)
+		protected virtual ItemConfiguration<T>[] GetAllItems<T>(IEnumerable<IContainer> configurations)
+			where T :  ItemInfoBase
 		{
-			var results = new List<TemplateConfiguration>();
+			var results = new List<ItemConfiguration<T>>();
 
 			foreach (var config in configurations)
 			{
-				var processingConfig = new TemplateConfiguration(config);
-				processingConfig.Templates = GetTemplates(config);
+				var processingConfig = new ItemConfiguration<T>(config);
+				processingConfig.Items = GetItems<T>(config);
 				results.Add(processingConfig);
 			}
 
 			return results.ToArray();
 		}
 
-		protected virtual IEnumerable<TemplateInfo> GetTemplates(IContainer configuration)
+		protected virtual IEnumerable<T> GetItems<T>(IContainer configuration)
+			where T : ItemInfoBase
 		{
-			var itemReader = configuration.Resolve<IItemReader<TemplateInfo>>();
-			var filterPredicate = configuration.Resolve<IFilterPredicate<TemplateInfo>>();
+			var itemReader = configuration.Resolve<IItemReader<T>>();
+			var filterPredicate = configuration.Resolve<IFilterPredicate<T>>();
 
 			Assert.IsNotNull(itemReader, "itemReader != null");
 			Assert.IsNotNull(filterPredicate, "filterPredicate != null");
@@ -63,7 +65,8 @@ namespace Leprechaun
 			return itemReader.GetItems(roots);
 		}
 
-		protected virtual void FilterIgnoredFields(IEnumerable<TemplateConfiguration> configurations)
+		protected virtual void FilterIgnoredFields<T>(IEnumerable<ItemConfiguration<T>> configurations)
+			where T : ItemInfoBase
 		{
 			foreach (var configuration in configurations)
 			{
@@ -71,7 +74,7 @@ namespace Leprechaun
 
 				Assert.IsNotNull(filter, "filter != null");
 
-				foreach (var template in configuration.Templates)
+				foreach (var template in configuration.Items.OfType<TemplateInfo>())
 				{
 					template.OwnFields = template.OwnFields.Where(field => filter.Includes(field)).ToArray();
 				}

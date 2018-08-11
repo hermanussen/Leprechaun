@@ -65,7 +65,7 @@
     <Compile Include="Model\TemplateCodeGenerationMetadata.cs" />
     <Compile Include="Model\TemplateFieldCodeGenerationMetadata.cs" />
     <Compile Include="Orchestrator.cs" />
-    <Compile Include="Model\TemplateConfiguration.cs" />
+    <Compile Include="Model\ItemConfiguration.cs" />
     <Compile Include="Filters\TemplateTreeRoot.cs" />
     <Compile Include="Filters\Exclusions\ChildrenOfPathBasedPresetTreeExclusion.cs" />
     <Compile Include="Filters\Exclusions\PathBasedPresetTreeExclusion.cs" />
