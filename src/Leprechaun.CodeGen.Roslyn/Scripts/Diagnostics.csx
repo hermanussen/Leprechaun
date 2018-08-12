@@ -29,9 +29,21 @@ public void RenderRecursive(ItemCodeGenerationMetadata item, int depth = 1)
     for (int i = 0; i < depth; i++) indenter.Append(" ");
 
     Code.AppendLine($"// {indenter}> {item.Name} ({item.Id})");
-	foreach(var child in item.Children)
+    RenderFields(item, depth);
+    foreach (var child in item.Children)
     {
         RenderRecursive(child, depth + 1);
+    }
+}
+
+public void RenderFields(ItemCodeGenerationMetadata item, int depth)
+{
+    StringBuilder indenter = new StringBuilder();
+    for (int i = 0; i < depth; i++) indenter.Append(" ");
+
+    foreach (var fieldValue in item.ItemInfo.FieldValues)
+    {
+        Code.AppendLine($"// {indenter}     {fieldValue.FieldName} ({fieldValue.FieldId}) = {fieldValue.RawValue}");
     }
 }
 
@@ -43,6 +55,7 @@ if (Items != null)
     {
         Code.AppendLine();
         Code.AppendLine($"// {item.Path} ({item.Id})");
+        RenderFields(item, 0);
         RenderRecursive(item);
     }
 

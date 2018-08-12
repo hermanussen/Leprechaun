@@ -8,5 +8,7 @@ namespace Leprechaun.Model
 		public Guid ParentId { get; set; }
 
 		public Guid TemplateId { get; set; }
+
+		public List<FieldValue> FieldValues { get; } = new List<FieldValue>();
 	}
 }

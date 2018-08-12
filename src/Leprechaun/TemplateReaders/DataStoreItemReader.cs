@@ -67,6 +67,45 @@ namespace Leprechaun.TemplateReaders
 				TemplateId = item.TemplateId
 			};
 
+			result.FieldValues.AddRange(
+				item.SharedFields.Select(f => new FieldValue()
+				{
+					FieldId = f.FieldId,
+					FieldName = f.NameHint,
+					FieldType = f.FieldType,
+					RawValue = f.Value
+				}));
+
+			result.FieldValues.AddRange(
+				item.UnversionedFields.SelectMany(l => l.Fields.Select(f => new FieldValue()
+				{
+					Language = l.Language,
+					FieldId = f.FieldId,
+					FieldName = f.NameHint,
+					FieldType = f.FieldType,
+					RawValue = f.Value
+				})));
+
+			result.FieldValues.AddRange(
+				item.Versions.SelectMany(v => v.Fields.Select(f => new FieldValue()
+				{
+					Version = v.VersionNumber,
+					Language = v.Language,
+					FieldId = f.FieldId,
+					FieldName = f.NameHint,
+					FieldType = f.FieldType,
+					RawValue = f.Value
+				})));
+
+			var maxVersions = result.FieldValues
+				.Where(f => f.Language != null && f.Version.HasValue)
+				.GroupBy(f => f.Language)
+				.Select(f => new { Language = f.Key, MaxVersion = f.Max(x => x.Version) });
+			foreach (var fieldValue in result.FieldValues.Where(f => maxVersions.Select(m => m.Language).Contains(f.Language) && f.Version.HasValue && f.Version == maxVersions.FirstOrDefault(m => m.Language == f.Language)?.MaxVersion))
+			{
+				fieldValue.IsLatestVersion = true;
+			}
+
 			return result;
 		}
 	}

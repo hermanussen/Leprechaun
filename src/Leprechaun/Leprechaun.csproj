@@ -65,6 +65,7 @@
     <Compile Include="MetadataGeneration\StandardTemplateMetadataGenerator.cs" />
     <Compile Include="MetadataGeneration\StandardTypeNameGenerator.cs" />
     <Compile Include="Model\ConfigurationCodeGenerationMetadata.cs" />
+    <Compile Include="Model\FieldValue.cs" />
     <Compile Include="Model\ItemCodeGenerationMetadata.cs" />
     <Compile Include="Model\ItemInfo.cs" />
     <Compile Include="Model\ItemInfoBase.cs" />
