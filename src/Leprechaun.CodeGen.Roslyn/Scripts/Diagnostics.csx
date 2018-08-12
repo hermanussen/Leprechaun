@@ -1,4 +1,6 @@
-﻿Log.Debug($"Emitting diagnostic templates for {ConfigurationName}...");
+﻿using System.Linq;
+using System.Text;
+Log.Debug($"Emitting diagnostic templates for {ConfigurationName}...");
 
 if (Templates != null)
 {
@@ -21,13 +23,27 @@ if (Templates != null)
     }
 }
 
+public void RenderRecursive(ItemCodeGenerationMetadata item, int depth = 1)
+{
+    StringBuilder indenter = new StringBuilder();
+    for (int i = 0; i < depth; i++) indenter.Append(" ");
+
+    Code.AppendLine($"// {indenter}> {item.Name} ({item.Id})");
+	foreach(var child in item.Children)
+    {
+        RenderRecursive(child, depth + 1);
+    }
+}
+
 if (Items != null)
 {
     Code.AppendLine("// -- Items");
 
-	foreach (var item in Items)
+	foreach (var item in Items.Where(i => i.Parent == null))
     {
-        Code.AppendLine($"// {item.FullTypeName} ({item.Path} {item.Id})");
+        Code.AppendLine();
+        Code.AppendLine($"// {item.Path} ({item.Id})");
+        RenderRecursive(item);
     }
 
     Code.AppendLine(string.Empty);

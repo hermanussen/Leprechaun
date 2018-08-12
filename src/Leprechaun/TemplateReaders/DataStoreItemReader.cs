@@ -54,15 +54,17 @@ namespace Leprechaun.TemplateReaders
 			}
 		}
 
-		protected virtual ItemInfo ParseItem(IItemData templateItem)
+		protected virtual ItemInfo ParseItem(IItemData item)
 		{
-			if (templateItem == null) throw new ArgumentException("Item passed to parse was null", nameof(templateItem));
+			if (item == null) throw new ArgumentException("Item passed to parse was null", nameof(item));
 
 			var result = new ItemInfo
 			{
-				Id = templateItem.Id,
-				Name = templateItem.Name,
-				Path = templateItem.Path
+				Id = item.Id,
+				Name = item.Name,
+				Path = item.Path,
+				ParentId = item.ParentId,
+				TemplateId = item.TemplateId
 			};
 
 			return result;

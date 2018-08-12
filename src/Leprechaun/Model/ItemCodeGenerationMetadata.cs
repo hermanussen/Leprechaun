@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Leprechaun.Model
@@ -13,6 +14,10 @@ namespace Leprechaun.Model
 		public override Guid Id => ItemInfo.Id;
 
 		public override string Name => ItemInfo.Name;
+
+		public ItemCodeGenerationMetadata Parent { get; set; }
+
+		public IReadOnlyCollection<ItemCodeGenerationMetadata> Children { get; set; }
 
 		public ItemCodeGenerationMetadata(ItemInfo itemInfo, string fullTypeName, string rootNamespace)
 		{

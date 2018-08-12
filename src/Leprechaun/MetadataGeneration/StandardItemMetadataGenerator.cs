@@ -30,14 +30,34 @@ namespace Leprechaun.MetadataGeneration
 
 			results.Sort((a, b) => string.Compare(a.Configuration.Name, b.Configuration.Name, StringComparison.Ordinal));
 
+			var resultsFlat = results.SelectMany(r => r.ItemMetadata).ToList();
+			ResolveParents(resultsFlat);
+			ResolveChildren(resultsFlat);
+
 			return results;
 		}
-		
+
 		protected virtual ItemCodeGenerationMetadata CreateItem(ITypeNameGenerator nameGenerator, IFilterPredicate<ItemInfo> predicate, ItemInfo item)
 		{
 			var fullName = nameGenerator.GetFullTypeName(item.Path);
 			
 			return new ItemCodeGenerationMetadata(item, fullName, predicate.GetRootNamespace(item));
+		}
+
+		private static void ResolveParents(IReadOnlyCollection<ItemCodeGenerationMetadata> items)
+		{
+			foreach (var item in items)
+			{
+				item.Parent = items.FirstOrDefault(i => i.ItemInfo.Id.Equals(item.ItemInfo.ParentId));
+			}
+		}
+
+		private static void ResolveChildren(IReadOnlyCollection<ItemCodeGenerationMetadata> items)
+		{
+			foreach (var item in items)
+			{
+				item.Children = items.Where(i => i.ItemInfo.ParentId.Equals(item.Id)).ToList();
+			}
 		}
 	}
 }
